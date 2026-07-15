@@ -7,9 +7,9 @@ phases:
 
   build:
     commands:
-      - docker build -t $ImageName -f Dockerfile .
-      - docker tag $ImageName:latest 264787847576.dkr.ecr.eu-north-1.amazonaws.com/$ImageName:latest
+      - docker build -t $ImageName -f ./Dockerfile .
+      - docker tag $ImageName:latest $ImageURI:latest
 
   post_build:
     commands:
-      - docker push 264787847576.dkr.ecr.eu-north-1.amazonaws.com/$ImageName:latest
+      - docker push $ImageURI:latest
