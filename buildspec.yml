@@ -1,10 +1,15 @@
 version: 0.2
 
 phases:
+  pre_build:
+    commands:
+      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 264787847576.dkr.ecr.eu-north-1.amazonaws.com
+
   build:
     commands:
-      - echo "Build Started"
+      - docker build -t $ImageName -f Dockerfile .
+      - docker tag $ImageName:latest 264787847576.dkr.ecr.eu-north-1.amazonaws.com/$ImageName:latest
 
-artifacts:
-  files:
-    - '**/*'
+  post_build:
+    commands:
+      - docker push 264787847576.dkr.ecr.eu-north-1.amazonaws.com/$ImageName:latest
